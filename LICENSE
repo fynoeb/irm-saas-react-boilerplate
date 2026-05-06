@@ -1,0 +1,45 @@
+PROPRIETARY LICENSE - IR MANAGE BOILERPLATE
+
+Copyright (c) 2026 funfayct. All rights reserved.
+
+This software and its associated documentation (the "Software") are the 
+proprietary property of funfayct. By purchasing the Software, you (the "Licensee") 
+are granted a limited, non-exclusive, non-transferable license to use the 
+Software under the following terms:
+
+1. GRANT OF LICENSE
+Licensee is permitted to:
+- Use the Software to create an unlimited number of personal or commercial 
+  applications for themselves or for clients.
+- Modify the source code to fit the requirements of their specific project.
+
+2. RESTRICTIONS
+Licensee is strictly prohibited from:
+- Redistributing, sublicensing, or reselling the Software (the source code itself) 
+  as a boilerplate, starter kit, template, or library, even if modified.
+- Creating a competing product that is primarily marketed as a 
+  "developer tool" or "boilerplate" using this source code.
+- Making the source code available in a public repository (unless it is a 
+  compiled/bundled final product).
+
+3. OWNERSHIP
+Ownership of the original Software and any derivatives thereof remains with 
+funfayct. This license does not transfer any intellectual property rights 
+except for the right to use the code as defined in Section 1.
+
+4. NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+
+5. TERMINATION
+This license is effective until terminated. Your rights under this license 
+will terminate automatically without notice from funfayct if you fail to 
+comply with any term(s) of this license.
+
+---
+IR Manage | Engineered by funfayct
