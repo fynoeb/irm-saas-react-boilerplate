@@ -1,0 +1,107 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helper Functions ---
+    
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- Entity Validations ---
+
+    function isValidInvestor(data) {
+      return data.keys().hasAll(['name', 'firm', 'stage', 'status', 'ownerId']) &&
+             // Strict key check to prevent shadow fields
+             (data.keys().size() >= 5 && data.keys().size() <= 12) && 
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.firm is string && data.firm.size() > 0 && data.firm.size() <= 100 &&
+             data.stage in ['Leads', 'Meeting', 'Due Diligence', 'Closing'] &&
+             data.status in ['Active', 'In Talks', 'Passed'] &&
+             (!data.keys().contains('type') || (data.type is string && data.type.size() <= 50)) &&
+             data.ownerId == request.auth.uid &&
+             // Timestamp validation if present
+             (!data.keys().contains('createdAt') || data.createdAt == request.time) &&
+             (!data.keys().contains('updatedAt') || data.updatedAt == request.time);
+    }
+
+    function isValidUpdate(data) {
+      return data.keys().hasAll(['title', 'category', 'status', 'ownerId']) &&
+             data.keys().size() <= 10 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.category in ['Update', 'Call', 'Report'] &&
+             data.ownerId == request.auth.uid &&
+             (!data.keys().contains('createdAt') || data.createdAt == request.time);
+    }
+
+    function isValidMetric(data) {
+      return data.keys().hasAll(['label', 'value', 'ownerId']) &&
+             data.keys().size() <= 8 &&
+             data.label is string && data.label.size() <= 100 &&
+             data.value is string && data.value.size() <= 50 &&
+             data.ownerId == request.auth.uid;
+    }
+
+    // --- Collection Rules ---
+
+    match /investors/{investorId} {
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow get: if isValidId(investorId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isValidId(investorId) && isSignedIn() && isValidInvestor(incoming());
+      allow update: if isValidId(investorId) && isSignedIn() && 
+                       existing().ownerId == request.auth.uid && 
+                       isValidInvestor(incoming()) &&
+                       incoming().ownerId == existing().ownerId &&
+                       // Immutable fields
+                       (!incoming().keys().contains('createdAt') || incoming().createdAt == existing().createdAt) &&
+                       // Allow specific field updates
+                       incoming().diff(existing()).affectedKeys().hasOnly(['name', 'firm', 'stage', 'status', 'type', 'amount', 'lastContact', 'color', 'nextFollowUp', 'updatedAt']);
+      allow delete: if isValidId(investorId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /updates/{updateId} {
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow get: if isValidId(updateId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isValidId(updateId) && isSignedIn() && isValidUpdate(incoming());
+      allow update: if isValidId(updateId) && isSignedIn() && 
+                       existing().ownerId == request.auth.uid && 
+                       isValidUpdate(incoming()) &&
+                       incoming().ownerId == existing().ownerId &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'status', 'date']);
+      allow delete: if isValidId(updateId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /metrics/{metricId} {
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow get: if isValidId(metricId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isValidId(metricId) && isSignedIn() && isValidMetric(incoming());
+      allow update: if isValidId(metricId) && isSignedIn() && 
+                       existing().ownerId == request.auth.uid && 
+                       isValidMetric(incoming()) &&
+                       incoming().ownerId == existing().ownerId &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['label', 'value', 'change', 'isPositive', 'iconName']);
+      allow delete: if isValidId(metricId) && isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+  }
+}

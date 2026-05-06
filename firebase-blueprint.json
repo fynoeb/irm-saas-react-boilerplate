@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "Investor": {
+      "title": "Investor",
+      "description": "Details of an investor or investment firm.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "firm": { "type": "string" },
+        "stage": { "type": "string", "enum": ["Leads", "Meeting", "Due Diligence", "Closing"] },
+        "status": { "type": "string", "enum": ["Active", "In Talks", "Passed"] },
+        "type": { "type": "string" },
+        "amount": { "type": "string" },
+        "lastContact": { "type": "string" },
+        "color": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "firm", "stage", "status", "ownerId"]
+    },
+    "Update": {
+      "title": "Update",
+      "description": "Activity update for the investor relations feed.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "category": { "type": "string", "enum": ["Update", "Call", "Report"] },
+        "status": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "status", "ownerId"]
+    },
+    "Metric": {
+      "title": "Metric",
+      "description": "Dashboard metric card data.",
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "value": { "type": "string" },
+        "change": { "type": "string" },
+        "isPositive": { "type": "boolean" },
+        "iconName": { "type": "string" },
+        "ownerId": { "type": "string" }
+      },
+      "required": ["label", "value", "ownerId"]
+    }
+  },
+  "firestore": {
+    "investors": {
+      "schema": "Investor",
+      "description": "Collection of all investors managed by the user."
+    },
+    "updates": {
+      "schema": "Update",
+      "description": "Activity logs and updates for investor relations."
+    },
+    "metrics": {
+      "schema": "Metric",
+      "description": "Dashboard counters and statistics unique to the user."
+    }
+  }
+}

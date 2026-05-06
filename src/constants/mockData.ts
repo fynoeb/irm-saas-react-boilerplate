@@ -1,0 +1,117 @@
+import { Investor, Metric, Update } from '../types';
+
+export const METRICS: Metric[] = [
+  {
+    label: 'Total Investors',
+    value: '124',
+    change: '+12%',
+    isPositive: true,
+    iconName: 'Users',
+  },
+  {
+    label: 'Pipeline Value',
+    value: '$4.2M',
+    change: '+$800k',
+    isPositive: true,
+    iconName: 'DollarSign',
+  },
+  {
+    label: 'Monthly Burn',
+    value: '$45,000',
+    change: '-5%',
+    isPositive: true,
+    iconName: 'Flame',
+  },
+  {
+    label: 'Runway',
+    value: '18 Mo.',
+    change: '+2 Mo.',
+    isPositive: true,
+    iconName: 'Clock',
+  },
+];
+
+export const INVESTORS: Investor[] = [
+  {
+    id: '1',
+    name: 'Sarah Jenkins',
+    firm: 'Blue Horizon Ventures',
+    stage: 'Leads',
+    status: 'In Talks',
+    type: 'VC / Series A',
+    amount: '$500k',
+    lastContact: '2 days ago',
+    color: 'bg-indigo-100 text-indigo-600',
+  },
+  {
+    id: '2',
+    name: 'Michael Chen',
+    firm: 'Sequoia Capital',
+    stage: 'Meeting',
+    status: 'Active',
+    type: 'VC / Tier 1',
+    amount: '$1.2M',
+    lastContact: 'Yesterday',
+    color: 'bg-emerald-100 text-emerald-600',
+  },
+  {
+    id: '3',
+    name: 'Elena Gilbert',
+    firm: 'Venture Partners',
+    stage: 'Due Diligence',
+    status: 'In Talks',
+    type: 'Angel',
+    amount: '$250k',
+    lastContact: '3 days ago',
+    color: 'bg-rose-100 text-rose-600',
+  },
+  {
+    id: '4',
+    name: 'David Miller',
+    firm: 'Y Combinator',
+    stage: 'Closing',
+    status: 'Active',
+    type: 'Accelerator',
+    amount: '$2.0M',
+    lastContact: 'Today',
+    color: 'bg-amber-100 text-amber-600',
+  },
+  {
+    id: '5',
+    name: 'Jessica Wu',
+    firm: 'Seed Bridge',
+    stage: 'Leads',
+    status: 'Passed',
+    type: 'Strategic',
+    amount: '$100k',
+    lastContact: '1 week ago',
+    color: 'bg-slate-100 text-slate-600',
+  },
+];
+
+export const UPDATES: Update[] = [
+  {
+    id: '1',
+    title: 'Q1 Investor Presentation Sent',
+    date: 'Oct 12, 2023',
+    description: 'Sent the quarterly investor presentation to all current investors and potential leads. Includes updated growth metrics and H2 roadmap.',
+    category: 'Report',
+    status: 'Delivered',
+  },
+  {
+    id: '2',
+    title: 'Seed Round Update Call',
+    date: 'Oct 10, 2023',
+    description: 'Monthly syncing call with lead investors. Discussed the recent hiring of the CTO and the upcoming product launch in the EU market.',
+    category: 'Call',
+    status: 'Completed',
+  },
+  {
+    id: '3',
+    title: 'Updated Financial Models',
+    date: 'Oct 08, 2023',
+    description: 'Revised projections for the next 18 months based on current burn rate and expanded sales team. Preparing for Series A documentation.',
+    category: 'Update',
+    status: 'Draft',
+  },
+];
